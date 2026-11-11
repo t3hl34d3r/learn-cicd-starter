@@ -25,11 +25,7 @@ jobs:
         run: go install github.com/pressly/goose/v3/cmd/goose@latest && goose -version && which goose
 
       - name: Run db migrations
-        run: |
-          goose -version
-          goose
-          export PATH=/home/runner/go/bin/:$PATH
-          ./scripts/migrateup.sh
+        run: ./scripts/migrateup.sh
 
       - name: Build
         run: "./scripts/buildprod.sh"
