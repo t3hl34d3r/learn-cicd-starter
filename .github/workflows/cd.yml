@@ -22,19 +22,24 @@ jobs:
       - name: Build
         run: "./scripts/buildprod.sh"
 
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v2'
+      - name: Debug GitHub identity
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Ref: $GITHUB_REF"
+          echo "Event: $GITHUB_EVENT_NAME"
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
         with:
-          workload_identity_provider: 'projects/595919672549/locations/global/workloadIdentityPools/github/providers/my-repo'
-          service_account: 'cloud-run-deployer@notely-514407.iam.gserviceaccount.com'
+          workload_identity_provider: projects/595919672549/locations/global/workloadIdentityPools/github/providers/my-repo
+          service_account: cloud-run-deployer@notely-514407.iam.gserviceaccount.com
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v3'
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v3
         with:
-          version: '>= 363.0.0'
+          version: ">= 363.0.0"
 
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-
-      - name: submit
-        run: gcloud builds submit --tag us-central1-docker.pkg.dev/PROJECT_ID/notely-ar-repo/notely:latest .
+      - name: Submit build
+        run: |
+          gcloud builds submit \
+            --tag us-central1-docker.pkg.dev/notely-514407/notely-ar-repo/notely:latest .
