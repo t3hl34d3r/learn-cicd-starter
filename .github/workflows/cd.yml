@@ -25,7 +25,7 @@ jobs:
         uses: mscno/setup-goose@v1
 
       - name: Run db migrations
-        run: ./scripts/migrateup.sh
+        run: PATH=/usr/local/bin/:$PATH ./scripts/migrateup.sh
 
       - name: Build
         run: "./scripts/buildprod.sh"
