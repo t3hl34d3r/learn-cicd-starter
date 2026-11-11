@@ -26,6 +26,7 @@ jobs:
 
       - name: Run db migrations
         run: |
+          goose -version
           export PATH=/home/runner/go/bin/:$PATH
           ./scripts/migrateup.sh
 
